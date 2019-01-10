@@ -1,0 +1,19 @@
+$Resources = Get-AzureRmResource|  where {$PSItem.Tags.Keys -eq 'PG_Contact'} 
+
+foreach ($Resource in $Resources) {
+
+$Data = Get-AzureRmResource -Name $Resource.Name -ResourceGroupName $Resource.ResourceGroupName
+$OldTag = $Data.Tags
+$NewTag = $OldTag
+$Value = $NewTag.PG_Contact
+$Hash = @{Original_Requestor=$Value}
+$NewTag.Remove('PG_Contact')
+$NewTag += $Hash
+
+
+Write-Output "Performing Tag Update for $($Resource.Name)"
+
+
+Set-AzureRmResource -ResourceId $Resource.ResourceId -Tag $NewTag -Force
+
+}
