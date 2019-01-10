@@ -1,0 +1,15 @@
+$Resources = Get-AzureRmResource | where {$PSItem.Tags.Keys -eq 'Deployer'} 
+
+foreach ($Resource in $Resources) {
+
+
+$Data = Get-AzureRmResource -Name $Resource.Name -ResourceGroupName $Resource.ResourceGroupName
+$Tag = $Data.Tags
+
+$Tag.Remove('Deployer')
+
+Write-Output "Performing Tag Deletion for $($Resource.Name)"
+
+Set-AzureRmResource -ResourceId $Resource.ResourceId -Tag $Tag -Force
+
+    }
