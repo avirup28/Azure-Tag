@@ -1,0 +1,14 @@
+$Resources = Get-AzResource |  Where-Object {$PSItem.Resourcetype -eq "Microsoft.Compute/virtualMachines"} | select Name, ResourceGroupName,ResourceType
+
+foreach ($Resource in $Resources) {
+
+    $Name = $Resource.Name
+    $RG = $Resource.ResourceGroupName
+    $Type = $Resource.ResourceType
+    
+    $Tags = (Get-AzResource -Name $Name -ResourceGroupName $RG).Tags.Mega_ID
+    
+    Write-Output "$Name;$RG;$Type;$Tags"
+
+        }
+ 
