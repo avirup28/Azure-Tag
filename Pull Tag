@@ -1,1 +1,20 @@
- Find-AzureRmResourceGroup -Tag @{"Cost_Center"='1000505151'} | Select-Object -Property @{"Name" = 'Name'; Expression = {$_.Name}}, @{"Name" = 'Application_Name'; Expression = {$_.Tags.Application_Name}}, @{"Name" = 'Cost_Center'; Expression = {$_.Tags.Cost_Center}}, @{"Name" = 'Owning_Role'; Expression = {$_.Tags.Owning_Role}}, @{"Name" = 'PG_Contact'; Expression = {$_.Tags.PG_Contact}}, @{"Name" = 'Stage'; Expression = {$_.Tags.Stage}}, @{"Name" = 'Support_Model'; Expression = {$_.Tags.Support_Model}}, @{"Name" = 'TA_Contact'; Expression = {$_.Tags.TA_Contact}}, @{"Name" = 'Technical_Agency'; Expression = {$_.Tags.Technical_Agency}}, @{"Name" = 'WBS'; Expression = {$_.Tags.WBS}}; 
+$RGs = Get-AzResourceGroup 
+
+foreach ($RG in $RGs) {
+
+
+$Output =New-Object -TypeName PSObject -Property @{
+    Resource_Group = $RG.ResourceGroupName
+    Mega_ID = $RG.Tags.Mega_ID
+    Application_Name = $RG.Tags.Application_Name
+    Original_Requestor = $RG.Tags.Original_Requestor
+    Owning_Role = $RG.Tags.Owning_Role
+    Technical_Agency = $RG.Tags.Technical_Agency
+    TA_Contact = $RG.Tags.TA_Contact
+
+  } | select Resource_Group,Mega_ID,Application_Name,Original_Requestor,Owning_Role,Technical_Agency,TA_Contact
+
+
+$Output | Export-Csv .\RGna.csv -Append
+
+}
