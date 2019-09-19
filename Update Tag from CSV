@@ -1,0 +1,20 @@
+$Resources = Import-Csv .\RG.csv
+
+foreach ($Resource in $Resources) {
+
+$Value = $Resource.MI
+$Tag = (Get-AzResourceGroup -Name $Resource.RG).Tags
+$ID = (Get-AzResourceGroup -Name $Resource.RG).ResourceId
+$NewTag = $Tag
+
+$Hash = @{Mega_Id="$Value"}
+$NewTag.Remove('Mega_ID')
+$NewTag.Remove('Mega_Id')
+$NewTag += $Hash
+
+Write-Output "Performing Tag Update for $($Resource.RG)"
+Set-AzResource -ResourceId $ID -Tag $NewTag -Force
+}
+
+
+
