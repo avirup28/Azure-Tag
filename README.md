@@ -1,3 +1,3 @@
 # Azure-Tag
-This repository contains script for tagging
+This repository contains script for tagging from different branch
 
