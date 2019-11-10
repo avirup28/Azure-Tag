@@ -1,2 +1,3 @@
 # Azure-Tag
-Pull Tag
+This repository contains script for tagging
+
